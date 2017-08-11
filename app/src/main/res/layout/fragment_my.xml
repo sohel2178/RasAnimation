@@ -1,0 +1,30 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    tools:context="com.baudiabatash.rasanimation.MyFragment">
+
+    <com.baudiabatash.rasanimation.ModelView.SohelButton
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:id="@+id/btn1"
+        android:layout_alignParentBottom="true"/>
+    <com.baudiabatash.rasanimation.ModelView.SohelButton
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:id="@+id/btn2"
+        android:layout_above="@+id/btn1"/>
+    <com.baudiabatash.rasanimation.ModelView.SohelButton
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:id="@+id/btn3"
+        android:layout_above="@+id/btn2"/>
+    <com.baudiabatash.rasanimation.ModelView.SohelButton
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:id="@+id/btn4"
+        android:layout_above="@+id/btn3"/>
+
+
+
+</RelativeLayout>
