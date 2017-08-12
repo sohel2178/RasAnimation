@@ -1,28 +1,23 @@
 package com.baudiabatash.rasanimation;
 
 import android.content.Intent;
-import android.hardware.camera2.params.StreamConfigurationMap;
-import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.transition.TransitionManager;
-import android.util.Log;
 import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.baudiabatash.rasanimation.ModelView.SohelButton;
+import com.baudiabatash.rasanimation.ModelView.EarthBead;
 import com.transitionseverywhere.Slide;
 import com.transitionseverywhere.Transition;
 import com.transitionseverywhere.TransitionValues;
 
 public class MainActivity extends AppCompatActivity {
     private ViewGroup transitionContainer;
-    private Button button;
-    private SohelButton sohelButton;
+    private Button button,btnGotoAbacus;
+    private EarthBead earthBead;
     private TextView textView,textView2;
 
     private Transition transition;
@@ -43,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
 
         transitionContainer = (ViewGroup) findViewById(R.id.transitions_container);
         button = (Button) findViewById(R.id.button);
-        sohelButton = (SohelButton) findViewById(R.id.an_btn);
+        btnGotoAbacus = (Button) findViewById(R.id.gotoAbacus);
+        earthBead = (EarthBead) findViewById(R.id.an_btn);
         textView = (TextView) findViewById(R.id.text);
         textView2 = (TextView) findViewById(R.id.text2);
         state =0;
@@ -67,6 +63,14 @@ public class MainActivity extends AppCompatActivity {
                 gotoTestActivity();
 
 
+            }
+        });
+
+
+        btnGotoAbacus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),AbacusActivity.class));
             }
         });
 

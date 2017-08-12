@@ -4,7 +4,7 @@
     android:shape="oval">
 
     <solid
-        android:color="@color/earth_bead_color"
+        android:color="@color/heaven_bead_color"
         android:width="1dp"/>
 
 

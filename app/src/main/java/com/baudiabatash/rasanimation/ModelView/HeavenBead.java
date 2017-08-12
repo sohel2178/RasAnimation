@@ -12,64 +12,55 @@ import com.baudiabatash.rasanimation.MyAnimation;
 import com.baudiabatash.rasanimation.R;
 
 /**
- * Created by Sohel on 8/11/2017.
+ * Created by Sohel on 8/12/2017.
  */
 
-public class SohelButton extends AppCompatButton {
+public class HeavenBead extends AppCompatButton {
     public static final int MOVE_UP=0;
     public static final int MOVE_DOWN=1;
-    private static final String TAG= "SohelButton";
+
     private MyAnimation myAnimation;
     private int moveState;
     private float displacement;
-    private SohelButtonListener listener;
-    public SohelButton(Context context) {
+    private HeavenBeadListener listener;
+
+    public HeavenBead(Context context) {
         super(context);
         init(context,null,0);
-
     }
 
-    public void setSohelButtonListener(SohelButtonListener listener){
-        this.listener = listener;
-    }
-
-    public void setDisplacement(float displacement){
-        this.displacement = displacement;
-    }
-
-
-    public SohelButton(Context context, AttributeSet attrs) {
+    public HeavenBead(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context,attrs,0);
     }
 
-    public SohelButton(Context context, AttributeSet attrs, int defStyleAttr) {
+    public HeavenBead(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context,attrs,defStyleAttr);
     }
 
-    private void init(Context context,AttributeSet attrs, int defStyleAttr){
-        setBackground(ContextCompat.getDrawable(getContext(),R.drawable.button_back));
-        moveState = MOVE_UP;
+    private void init(Context context, AttributeSet attrs, int defStyleAttr){
+        setBackground(ContextCompat.getDrawable(getContext(), R.drawable.heaven_bead_back));
+        moveState = MOVE_DOWN;
         myAnimation = new MyAnimation();
+
         this.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 int action = event.getAction();
                 switch(action) {
                     case (MotionEvent.ACTION_DOWN) :
-                        Log.d(TAG,"Action was DOWN");
                         if(listener!=null){
                             listener.onClick(getId());
                         }
                         return true;
                     case (MotionEvent.ACTION_MOVE) :
-                        Log.d(TAG,"Action was MOVE");
                         return true;
                 }
                 return true;
             }
         });
+
     }
 
     public int getMoveState(){
@@ -79,7 +70,7 @@ public class SohelButton extends AppCompatButton {
 
     public void moveUp(){
         if(moveState==MOVE_DOWN){
-            myAnimation.moveUp(this,displacement);
+            myAnimation.moveDown(this,displacement);
             moveState= MOVE_UP;
         }
 
@@ -87,15 +78,32 @@ public class SohelButton extends AppCompatButton {
 
     public void moveDown(){
         if(moveState==MOVE_UP){
-            myAnimation.moveDown(this,displacement);
+            myAnimation.moveUp(this,displacement);
             moveState= MOVE_DOWN;
         }
 
 
     }
 
-    public interface SohelButtonListener{
-        public void onClick(int id);
+    public void setDisplacement(float displacement){
+        this.displacement = displacement;
     }
 
+    public void setHeavenBeadListener(HeavenBeadListener listener){
+        this.listener= listener;
+    }
+
+    public int getValue(){
+        int value = 0;
+        if(moveState==MOVE_UP){
+            value = 5;
+        }
+
+        return value;
+    }
+
+
+    public interface HeavenBeadListener{
+        public void onClick(int id);
+    }
 }

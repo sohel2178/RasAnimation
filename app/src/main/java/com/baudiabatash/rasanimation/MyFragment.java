@@ -4,18 +4,18 @@ package com.baudiabatash.rasanimation;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
+import android.widget.TextView;
 
-import com.baudiabatash.rasanimation.ModelView.SohelButton;
+import com.baudiabatash.rasanimation.ModelView.EarthBead;
+import com.baudiabatash.rasanimation.ModelView.HeavenBead;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,12 +24,17 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MyFragment extends Fragment implements SohelButton.SohelButtonListener {
-    private SohelButton btn1,btn2,btn3,btn4;
+public class MyFragment extends Fragment implements EarthBead.SohelButtonListener,
+        HeavenBead.HeavenBeadListener{
+
+    private TextView tvValue;
+    private EarthBead btn1,btn2,btn3,btn4;
+    private HeavenBead heavenBead;
+
 
     private int buttonWidth, buttonHeight;
 
-    private List<SohelButton> sohelButtonList;
+    private List<EarthBead> earthBeadList;
 
 
     public MyFragment() {
@@ -56,13 +61,22 @@ public class MyFragment extends Fragment implements SohelButton.SohelButtonListe
                 buttonWidth  = btn1.getMeasuredWidth();
                 buttonHeight = btn1.getMeasuredHeight();
 
-                int screenHeight = getScreenHeight();
-                float displacement = (float) (screenHeight-4.5*buttonHeight-56*2);
+                int margin = toPx((int) getResources().getDimension(R.dimen.margin));
+                float textViewHeight =getResources().getDimension(R.dimen.text_size);
 
-                btn1.setDisplacement(-displacement);
-                btn2.setDisplacement(-displacement);
-                btn3.setDisplacement(-displacement);
-                btn4.setDisplacement(-displacement);
+                int screenHeight = getScreenHeight();
+                float displacement = (float) (screenHeight-4*buttonHeight-margin-textViewHeight);
+
+                float heavenBeadDisplacement = displacement/3;
+                float earthBeadDisplacement = displacement-heavenBeadDisplacement;
+
+                btn1.setDisplacement(-(earthBeadDisplacement-buttonHeight/2));
+                btn2.setDisplacement(-(earthBeadDisplacement-buttonHeight/2));
+                btn3.setDisplacement(-(earthBeadDisplacement-buttonHeight/2));
+                btn4.setDisplacement(-(earthBeadDisplacement-buttonHeight/2));
+                heavenBead.setDisplacement(heavenBeadDisplacement-buttonHeight/2);
+
+                //Log.d("KKK",btn1.getValue()+"");
 
 
 
@@ -80,61 +94,86 @@ public class MyFragment extends Fragment implements SohelButton.SohelButtonListe
     @Override
     public void onResume() {
         super.onResume();
-
-        Log.d("KKK",buttonHeight+"");
     }
 
     private void initView(View view) {
-        btn1 = (SohelButton) view.findViewById(R.id.btn1);
-        btn2 = (SohelButton) view.findViewById(R.id.btn2);
-        btn3 = (SohelButton) view.findViewById(R.id.btn3);
-        btn4 = (SohelButton) view.findViewById(R.id.btn4);
+        tvValue = (TextView) view.findViewById(R.id.value);
+        heavenBead = (HeavenBead) view.findViewById(R.id.heaven_bead);
+        heavenBead.setHeavenBeadListener(this);
 
-
+        btn1 = (EarthBead) view.findViewById(R.id.btn1);
+        btn2 = (EarthBead) view.findViewById(R.id.btn2);
+        btn3 = (EarthBead) view.findViewById(R.id.btn3);
+        btn4 = (EarthBead) view.findViewById(R.id.btn4);
 
         btn1.setSohelButtonListener(this);
         btn2.setSohelButtonListener(this);
         btn3.setSohelButtonListener(this);
         btn4.setSohelButtonListener(this);
 
-        sohelButtonList = new ArrayList<>();
-        sohelButtonList.add(btn1);
-        sohelButtonList.add(btn2);
-        sohelButtonList.add(btn3);
-        sohelButtonList.add(btn4);
+        earthBeadList = new ArrayList<>();
+        earthBeadList.add(btn1);
+        earthBeadList.add(btn2);
+        earthBeadList.add(btn3);
+        earthBeadList.add(btn4);
 
     }
 
     @Override
     public void onClick(int id) {
-        //Log.d("KKK",id+"");
 
-        int touchIndex= getIndex(id);
-
-        SohelButton touchButton = sohelButtonList.get(touchIndex);
-
-        if(touchButton.getMoveState()==SohelButton.MOVE_DOWN){
-            for(SohelButton x: sohelButtonList){
-                if(x.getId()<=id){
-                    x.moveUp();
-                }
+        if(id==heavenBead.getId()){
+            if(heavenBead.getMoveState()==HeavenBead.MOVE_DOWN){
+                heavenBead.moveUp();
+            }else{
+                heavenBead.moveDown();
             }
+
+
+            //return;
         }else{
-            for(SohelButton x: sohelButtonList){
-                if(x.getId()>=id){
-                    x.moveDown();
+            int touchIndex= getIndex(id);
+
+            EarthBead touchButton = earthBeadList.get(touchIndex);
+
+            if(touchButton.getMoveState()== EarthBead.MOVE_DOWN){
+                for(EarthBead x: earthBeadList){
+                    if(x.getId()<=id){
+                        x.moveUp();
+                    }
+                }
+            }else{
+                for(EarthBead x: earthBeadList){
+                    if(x.getId()>=id){
+                        x.moveDown();
+                    }
                 }
             }
+
+
         }
+
+        setValue();
+
+
 
 
     }
 
+    private void setValue(){
+        int value = 0;
+        for (EarthBead x: earthBeadList){
+            value = value+x.getValue();
+        }
+        value = value+heavenBead.getValue();
+        tvValue.setText(String.valueOf(value));
+    }
+
     private int getIndex(int id) {
         int index=-1;
-        for(SohelButton x: sohelButtonList){
+        for(EarthBead x: earthBeadList){
             if(x.getId()==id){
-                index = sohelButtonList.indexOf(x);
+                index = earthBeadList.indexOf(x);
                 break;
             }
         }
@@ -149,5 +188,9 @@ public class MyFragment extends Fragment implements SohelButton.SohelButtonListe
         display.getMetrics(metrics);
         int height = metrics.heightPixels;
         return height;
+    }
+
+    private int toPx(int dp){
+        return (int)((getResources().getDisplayMetrics().density)*dp);
     }
 }

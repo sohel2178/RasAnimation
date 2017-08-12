@@ -2,26 +2,57 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
+    android:padding="@dimen/margin"
     tools:context="com.baudiabatash.rasanimation.MyFragment">
 
-    <com.baudiabatash.rasanimation.ModelView.SohelButton
-        android:layout_width="42dp"
-        android:layout_height="42dp"
+    <TextView
+        android:layout_width="@dimen/text_size"
+        android:layout_height="@dimen/text_size"
+        android:background="@drawable/text_back"
+        android:id="@+id/value"
+        android:text="0"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
+
+
+    <ImageView
+        android:layout_marginLeft="@dimen/rod_margin"
+        android:id="@+id/rod"
+        android:layout_below="@+id/value"
+        android:layout_width="@dimen/rod_width"
+        android:layout_height="match_parent"
+        android:src="@drawable/divider"/>
+
+    <com.baudiabatash.rasanimation.ModelView.HeavenBead
+        android:layout_width="@dimen/button_size"
+        android:layout_height="@dimen/button_size"
+        android:id="@+id/heaven_bead"
+        android:layout_below="@+id/value"
+        android:layout_marginLeft="@dimen/earth_bead_margin"/>
+
+    <com.baudiabatash.rasanimation.ModelView.EarthBead
+        android:layout_marginLeft="@dimen/earth_bead_margin"
+        android:layout_width="@dimen/button_size"
+        android:layout_height="@dimen/button_size"
         android:id="@+id/btn1"
         android:layout_alignParentBottom="true"/>
-    <com.baudiabatash.rasanimation.ModelView.SohelButton
-        android:layout_width="42dp"
-        android:layout_height="42dp"
+    <com.baudiabatash.rasanimation.ModelView.EarthBead
+        android:layout_marginLeft="@dimen/earth_bead_margin"
+        android:layout_width="@dimen/button_size"
+        android:layout_height="@dimen/button_size"
         android:id="@+id/btn2"
         android:layout_above="@+id/btn1"/>
-    <com.baudiabatash.rasanimation.ModelView.SohelButton
-        android:layout_width="42dp"
-        android:layout_height="42dp"
+    <com.baudiabatash.rasanimation.ModelView.EarthBead
+        android:layout_marginLeft="@dimen/earth_bead_margin"
+        android:layout_width="@dimen/button_size"
+        android:layout_height="@dimen/button_size"
         android:id="@+id/btn3"
         android:layout_above="@+id/btn2"/>
-    <com.baudiabatash.rasanimation.ModelView.SohelButton
-        android:layout_width="42dp"
-        android:layout_height="42dp"
+    <com.baudiabatash.rasanimation.ModelView.EarthBead
+        android:layout_marginLeft="@dimen/earth_bead_margin"
+        android:layout_width="@dimen/button_size"
+        android:layout_height="@dimen/button_size"
         android:id="@+id/btn4"
         android:layout_above="@+id/btn3"/>
 
